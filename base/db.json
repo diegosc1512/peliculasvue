@@ -21,9 +21,15 @@
       "descripcion": "Representacion historica de algun echo del pasado"
     },
     {
+      "nombre": "rww",
+      "descripcion": "rww",
+      "id": 6,
+      "updateCategoria": true
+    },
+    {
       "nombre": "miau",
       "descripcion": "miau",
-      "id": 6
+      "id": 7
     }
   ],
   "pelicula": [

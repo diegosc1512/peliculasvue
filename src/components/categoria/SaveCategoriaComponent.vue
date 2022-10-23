@@ -1,7 +1,13 @@
 <template>
     <update v-bind:update="false" form-title="Registrar"></update>
 
-
+    <h5>Buscador de tareas {{textoABuscar}}</h5>
+        <form action="">
+        <div class="input-group mb-3">
+            <input type="text" v-model="textoABuscar" class="form-control" placeholder="Buscar tareas" >
+            <button class="btn btn-outline-secondary" @click.prevent="getCateorias()">Buscar</button>
+        </div>
+       </form> 
     <h1>Listado de categorias en componente</h1>
 
     <input type="text" v-model="buscar" class="form-control" placeholder="Ejemplo: terror"/>
@@ -15,19 +21,20 @@
                 <div class="card-body">
                 <h3 class="card-title mb-3"><strong>Nombre:</strong>{{ item.nombre }}</h3>
                 <p class="card-text"><strong>Descripcion:</strong> {{ item.descripcion }}</p>
-    
+                <div><button @click="removeCategoria(item.id)">eliminar {{item.id}}</button></div>
+                <button v-on:click="update =true" @click="getCategoria(item.id)">Actualizar Categoria {{item.id}}</button>
                 </div>
             </div>
         </div>
     </div>
-        <div v-for="c in categorias" k:ey="c.id">
+        <!--<div v-for="c in categorias" k:ey="c.id">
             <div >Nombre: {{c.nombre}} </div>
             <div >Descripcion: {{c.descripcion}} </div>
             <div><button @click="removeCategoria(c.id)">eliminar {{c.id}}</button></div>
             
             <button v-on:click="update =true" @click="cargarCategoria(c.id)">Actualizar Categoria</button>
              
-        </div>
+        </div>-->
         <button v-on:click="update =false">Crear Categoria</button>
         <div v-if="update==true">
             <div class="col">
@@ -35,16 +42,16 @@
                     <div class="card-body">
                         <h1>ACTUALIZAR CATEGORIA</h1>
                         <form @submit="sendForm2">
-                            <label>Nombre: {{categoria.nombre}}</label>
+                            <label>Nombre: </label>
                             <input v-model="categoria.nombre" type="text" >
-                            <label>Descripcion: {{categoria.descripcion}}</label>
+                            <label>Descripcion: </label>
                             <input v-model="categoria.descripcion" type="text" />
                             <!--<select  v-model="id">
                                 <option v-for="c  in categorias" ::key="c.id" :value="c.id">
                                     {{c.nombre}}
                                 </option>
                             </select>-->
-                            <input type="submit" value="Enviar" @click="">
+                            <input type="submit" value="Enviar" @click="getCategoriasRefresh()">
                             <button v-on:click="update =null">cancelar</button>
                         </form>
                         
@@ -83,7 +90,12 @@
     props: {
         update: Boolean,
         formTitle: String,
-        categoriaActualizar: []
+        categoriaActualizar: [],
+        categoria: {
+                nombre:"",
+                descripcion:"",
+                textoABuscar: '',
+            },         
     },
      data(){
          return {
@@ -92,6 +104,7 @@
             categoria: {
                 nombre:"",
                 descripcion:"",
+                textoABuscar: '',
             }, 
             categoriaActualizar: [],    
             buscar: '',       
@@ -109,6 +122,19 @@
 
             //this.insert(formData);
             this.addCategoria();
+        },
+        sendForm2(e){
+            e.preventDefault();
+            
+            console.log(this.categoria);
+            const formData = new FormData();
+
+            formData.append("id", this.categoria.id);
+            formData.append("nombre", this.categoria.nombre);
+            formData.append("descripcion", this.categoria.descripcion);
+
+            //this.insert(formData);
+            this.guardar(this.categoria.id);
         },
         insert(formData)
         {
@@ -128,44 +154,72 @@
             this.nombre = "";
             this.descripcion = "";
         },
-        async updateCategoria(id) {
-            try {
-                await axios.patch(`${`http://localhost:3000/categoria`}/${id}`, {
-                    updateCategoria: true
-                });
-                this.categorias = this.categorias.map(categoria => {
-                    if (categoria.id === id) {
-                        categoria.updateCategoria = true;
-                    }
-                    return categoria;
-                });
-            } catch (error) {
-                console.error(error);
-            }
+
+       async guardar(id){
+
+        axios.patch(`http://localhost:3000/categoria/${id}`,
+            { "nombre": this.categoria.nombre, "descripcion": this.categoria.descripcion }
+           // { headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': crsfToken }, }
+        ).then((response) => {
+            // Code
+            console.log("actualizado");
+            this.categorias = [...this.categorias, res.data];
+            this.nombre = "";
+            this.descripcion = "";
+            getCategoriasRefresh();
+        }).catch((error) => {
+            // Code
+            //console.log(error);
+        })
+       
         },
         removeCategoria(id) {
             axios.delete(`http://localhost:3000/categoria/${id}`)
             this.categorias = this.categorias.filter(categoria => categoria.id !== id)
+            console.log(categoria);
         },
         async cargarCategoria(id){
-            try {
-                await axios.get(`${`http://localhost:3000/categoria`}/${id}`, {
-                    updateCategoria: true
-                });
-                this.categorias = this.categorias.map(categoria => {
-                    if (categoria.id === id) {
-                        categoria.updateCategoria = true;
-                        //console.log(categoria);
-                        categoriaActualizar=categoria
-                    }
-                    console.log(categoriaActualizar);
-                    return categoriaActualizar;
-                });
-            } catch (error) {
-                console.error(error);
-            }
-            
-        }
+            axios.get(`http://localhost:3000/categoria/${id}`)
+            this.categorias = this.categorias.filter(categoria => categoria.id !== id)
+            return categoria;
+            console.log(categoria.nombre + categoria.descripcion);
+        },
+        getCateorias(id) { //no da
+            axios({
+                method: "get",
+                url:  `http://localhost:3000/categoria/${id}`
+                //process.env.VUE_APP_RUTA_API+"/tareas/?q="+this.textoABuscar
+            })
+                .then(response => {
+                    this.categorias = response.data;
+                    console.log(response);
+                })
+                .catch(e => console.log(e));
+        },
+        getCategoriasRefresh() {
+            axios({
+                method: "get",
+                url:  `http://localhost:3000/categoria`
+                //url: process.env.VUE_APP_RUTA_API+"/tareas/?q="+this.textoABuscar
+            })
+                .then(response => {
+                    this.categorias = response.data;
+                    console.log(response);
+                })
+                .catch(e => console.log(e));
+        },
+        getCategoria(id){
+            axios({
+                method: "get",
+                //url: process.env.VUE_APP_RUTA_API+"/tareas/"+this.$route.params.id
+                url:  `http://localhost:3000/categoria/${id}`
+            })
+            .then(response => {
+                this.categoria = response.data;
+            console.log(response);
+            })
+            .catch(e => console.log(e));
+        },
      },
      computed: {
 
