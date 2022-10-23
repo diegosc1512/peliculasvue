@@ -7,15 +7,15 @@
   
   <script>
     //import ListHorarios from '@/components/horario/ListhorariosComponente.vue'
-    import Savehorario from '@/components/horario/SavehorarioComponent.vue'
-import SavehorarioComponent from '@/components/horario/SavehorarioComponent.vue';
+   // import Savehorario from '@/components/horario/SavehorarioComponent.vue'
+import SaveHorarioComponent from '@/components/horario/SaveHorarioComponent.vue';
   
   export default {
     name: 'horarioView',
     components: {
     //Listhorarios,
-    Savehorario,
-    SavehorarioComponent
+    //Savehorario,
+    SaveHorarioComponent
 }
   }
   </script>

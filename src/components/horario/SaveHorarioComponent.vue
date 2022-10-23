@@ -44,8 +44,7 @@
                         <form @submit="sendForm2">
                             <label>Hora: </label>
                             <input v-model="horario.hora" type="text" >
-                            <label>Hora: </label>
-                            <input v-model="horario.hora" type="text" />
+                           
                             <!--<select  v-model="id">
                                 <option v-for="c  in horarios" ::key="c.id" :value="c.id">
                                     {{c.hora}}
@@ -68,8 +67,7 @@
                         <form @submit="sendForm">
                             <label>Hora:</label>
                             <input v-model="horario.hora" type="text" />
-                            <label>Hora:</label>
-                            <input v-model="horario.hora" type="text" />
+                           
                             <!--<select  v-model="id">
                                 <option v-for="c  in horarios" ::key="c.id" :value="c.id">
                                     {{c.hora}}
@@ -103,7 +101,6 @@
             horarios: [],
             horario: {
                 hora:"",
-                hora:"",
                 textoABuscar: '',
             }, 
             horarioActualizar: [],    
@@ -131,7 +128,6 @@
 
             formData.append("id", this.horario.id);
             formData.append("hora", this.horario.hora);
-            formData.append("hora", this.horario.hora);
 
             //this.insert(formData);
             this.guardar(this.horario.id);
@@ -148,10 +144,8 @@
         async addhorario() {
             const res = await axios.post(`http://localhost:3000/horario`, {
                 hora: this.horario.hora,
-                hora: this.horario.hora,
             });
             this.horarios = [...this.horarios, res.data];
-            this.hora = "";
             this.hora = "";
         },
 
@@ -164,7 +158,6 @@
             // Code
             console.log("actualizado");
             this.horarios = [...this.horarios, res.data];
-            this.hora = "";
             this.hora = "";
             gethorariosRefresh();
         }).catch((error) => {
