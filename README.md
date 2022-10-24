@@ -1,4 +1,4 @@
-# modulo6practica2
+# modulo6ProyectoFinal
 
 ## Project setup
 ```
