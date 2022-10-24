@@ -4,6 +4,8 @@
             <div class="card-body">
                 <h5 class="card-title"> {{producto.nombre}}</h5>
                 <img :src= producto.imagen alt="" width="100%">
+                <img :src="`images/${producto.imagen}`" class="img-responsive" 
+          height="70" width="90">
                 <p class="card-text">{{producto.descripcion}}</p>
                     <div class="producto-relacionado-precio">Precio: {{producto.precio}} BOB</div>
                 <div>
