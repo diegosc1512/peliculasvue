@@ -1,16 +1,8 @@
 <template>
     <update v-bind:update="false" form-title="Registrar"></update>
+    <h1>Listado de horarios</h1>
 
-    <h5>Buscador de Horarios {{textoABuscar}}</h5>
-        <form action="">
-        <div class="input-group mb-3">
-            <input type="text" v-model="textoABuscar" class="form-control" placeholder="Buscar Horarios" >
-            <button class="btn btn-outline-secondary" @click.prevent="getHorarios()">Buscar</button>
-        </div>
-       </form> 
-    <h1>Listado de horarios en componente</h1>
-
-    <input type="text" v-model="buscar" class="form-control" placeholder="Ejemplo: 08:00"/>
+    <input type="text" v-model="buscar" class="form-control" placeholder="Ingerse el horario que desea buscar. Ejemplo: 08:00"/>
     
     <div class="row mt-3">
     
@@ -20,7 +12,6 @@
                 <!--<img class="card-img-top" v-bind:src="'img/' + item.img" v-bind:alt="item.hora">-->
                 <div class="card-body">
                 <h3 class="card-title mb-3"><strong>Hora:</strong>{{ item.hora }}</h3>
-                <p class="card-text"><strong>Hora:</strong> {{ item.hora }}</p>
                 <div><button @click="removehorario(item.id)">eliminar {{item.id}}</button></div>
                 <button v-on:click="update =true" @click="gethorario(item.id)">Actualizar horario {{item.id}}</button>
                 </div>

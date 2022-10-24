@@ -21,15 +21,9 @@
       "descripcion": "Representacion historica de algun echo del pasado"
     },
     {
-      "nombre": "rww",
-      "descripcion": "rww",
-      "id": 6,
-      "updateCategoria": true
-    },
-    {
-      "nombre": "miau",
-      "descripcion": "miau",
-      "id": 7
+      "nombre": "Comedia",
+      "descripcion": "Para reir",
+      "id": 8
     }
   ],
   "pelicula": [
@@ -76,6 +70,15 @@
         "09:00",
         "14:00"
       ]
+    },
+    {
+      "nombre": "b",
+      "descripcion": "b",
+      "imagen": "b",
+      "categorias": "terror",
+      "precio": "20",
+      "horarios": "09:00",
+      "id": 5
     }
   ],
   "horario": [
@@ -102,6 +105,10 @@
     {
       "id": 6,
       "hora": "23:20"
+    },
+    {
+      "hora": "08:00",
+      "id": 7
     }
   ]
 }

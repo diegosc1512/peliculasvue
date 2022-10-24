@@ -1,17 +1,17 @@
 <template>
     <update v-bind:update="false" form-title="Registrar"></update>
 
-    <h5>Buscador de peliculas {{textoABuscar}}</h5>
+    <h2>Filtro de precios de peliculas {{textoABuscar}}</h2>
         <form action="">
         <div class="input-group mb-3">
-            <input type="text" v-model="textoABuscar" class="form-control" placeholder="Filtrar menor precio" >
+            <input type="text" v-model="textoABuscar" class="form-control" placeholder="Ingrese el precio maximo para filtrar los menores..." >
             <button class="btn btn-outline-secondary" @click.prevent="getMenorPrecio(textoABuscar)">Filtrar</button>
 
         </div>
    
        </form>
    
-    <h1>Listado de pelicula</h1>
+    <h2>Listado de pelicula</h2>
 
     <input type="text" v-model="buscar" class="form-control" placeholder="Escribe para buscar una pelicula....."/>
     
@@ -24,12 +24,22 @@
                 <div class="card-body">
                 <h3 class="card-title mb-3"><strong>Nombre:</strong>{{ item.nombre }}</h3>
                 <p class="card-text"><strong>Descripcion:</strong> {{ item.descripcion }}</p>
-                <p class="card-text"><strong>Imagen:</strong> {{ item.imagen }}</p>
+                <img v-bind:src="item.imagen " alt="" style="width:100%">
+                <!--<p class="card-text"><strong>Imagen:</strong> {{ item.imagen }}</p>-->
                 <p class="card-text"><strong>Precio:</strong> {{ item.precio }}</p>
-                <p class="card-text"><strong>Categorias:</strong> {{ item.categorias }}</p>
-                <p class="card-text"><strong>Horarios:</strong> {{ item.horarios }}</p>
-		<div><button @click="removePelicula(item.id)">eliminar {{item.id}}</button></div>
-                <button v-on:click="update =true" @click="getPelicula(item.id)">Actualizar Pelicula {{item.id}}</button>
+                <p class="card-text"><strong>Categorias:</strong>
+                    <div class="col-md-12" v-for="itemCat in item.categorias" v-bind:key="itemCat.id">
+                     {{ itemCat }}
+                    </div>
+                </p>
+                <p class="card-text"><strong>Horarios:</strong> 
+                    <div class="col-md-12" v-for="itemHor in item.horarios" v-bind:key="itemHor.id">
+                     {{ itemHor }}
+                    </div>
+		<div><button class="btn btn-danger" @click="removePelicula(item.id)">eliminar {{item.id}}</button></div>
+    </p>
+        
+                <button class="btn btn-primary" v-on:click="update =true" @click="getPelicula(item.id)">Actualizar Pelicula {{item.id}}</button>
                 </div>
             </div>
         </div>
@@ -42,35 +52,33 @@
             <button v-on:click="update =true" @click="cargarPelicula(c.id)">Actualizar Pel�cula</button>
              
         </div>-->
-        <button v-on:click="update =false">Crear Pelicula</button>
+        <button class="btn btn-warning" v-on:click="update =false">Crear Pelicula</button>
         <div v-if="update==true">
             <div class="col">
-                <div class="card" style="width: 18rem;">
+                <div class="card" >
                     <div class="card-body">
                         <h1>ACTUALIZAR PELICULA</h1>
                         <form @submit="sendForm2">
-                            <label>Nombre: </label>
-                            <input v-model="pelicula.nombre" type="text" >
-                            <label>Descripcion: </label>
-                            <input v-model="pelicula.descripcion" type="text" />
-                            <label>Imagen: ak</label>
-                                   
-                            <input v-model="pelicula.imagen" type="text" />
-                            
-          height="70" width="90"/>
-			    <label>Precio: </label>
-                            <input v-model="pelicula.precio" type="text" />
-			    <label>Categorias: </label>
-                            <input v-model="pelicula.categorias" type="text" />
-			    <label>Horarios: </label>
-                            <input v-model="pelicula.horarios" type="text" />
+                            <div><label>Nombre: </label></div>
+                           <div><input v-model="pelicula.nombre" type="text" ></div> 
+                            <div><label>Descripcion: </label></div>
+                            <div><input v-model="pelicula.descripcion" type="text" /></div>
+                            <!--<div><label>Imagen: </label></div>
+                            <input v-model="pelicula.imagen" type="text" />-->
+			                <div><label>Precio: </label></div>
+                            <div><input v-model="pelicula.precio" type="text" /></div>
+			                <div><label>Categorias: </label></div>
+                            <div><input v-model="pelicula.categorias" type="text" /></div>
+			                <div><label>Horarios: </label></div>
+                            <div><input v-model="pelicula.horarios" type="text" /></div>
+                            <br>
                             <!--<select  v-model="id">
                                 <option v-for="c  in peliculas" ::key="c.id" :value="c.id">
                                     {{c.nombre}}
                                 </option>
                             </select>-->
-                            <input type="submit" value="Enviar" @click="getPeliculasRefresh()">
-                            <button v-on:click="update =null">cancelar</button>
+                            <input class="btn btn-primary" type="submit" value="Enviar" @click="getPeliculasRefresh()">
+                            <button class="btn btn-danger" v-on:click="update =null">cancelar</button>
                         </form>
                         
                     </div>
@@ -80,29 +88,31 @@
  
         <div v-if="update==false">
             <div class="col">
-                <div class="card" style="width: 18rem;">
+                <div class="card" >
                     <div class="card-body">
                         <h1>REGISTRAR PELiCULA</h1>
                         <form @submit="sendForm">
-                            <label>Nombre:</label>
-                            <input v-model="pelicula.nombre" type="text" />
-                            <label>Descripcion:</label>
-                            <input v-model="pelicula.descripcion" type="text" />
-			    <label>Imagen: </label>
-                            <input v-model="pelicula.imagen" type="text" />
-			    <label>Precio: </label>
-                            <input v-model="pelicula.precio" type="text" />
-			    <label>Categorias: </label>
-                            <input v-model="pelicula.categorias" type="text" />
-			    <label>Horarios: </label>
-                            <input v-model="pelicula.horarios" type="text" />
+                            <div><label>Nombre: </label></div>
+                           <div><input v-model="pelicula.nombre" type="text" ></div> 
+                            <div><label>Descripcion: </label></div>
+                            <div><input v-model="pelicula.descripcion" type="text" /></div>
+                            <!----><div><label>Imagen: </label></div>
+                            <div><input v-model="pelicula.imagen" type="text" /></div>
+			                <div><label>Precio: </label></div>
+                            <div><input v-model="pelicula.precio" type="text" /></div>
+			                <div><label>Categorias: </label></div>
+                            <div><input v-model="pelicula.categorias" type="text" /></div>
+			                <div><label>Horarios: </label></div>
+                            <div><input v-model="pelicula.horarios" type="text" /></div>
+                            <br>
                             <!--<select  v-model="id">
                                 <option v-for="c  in peliculas" ::key="c.id" :value="c.id">
                                     {{c.nombre}}
                                 </option>
                             </select>-->
-                            <input type="submit" value="Enviar" @click="">
-                            <button v-on:click="update =null">cancelar</button> 
+                            <div class="col-md-12"> <input class="btn btn-primary" type="submit" value="Enviar" @click=""></div>
+                            <br>
+                            <div class="col-md-12"><button class="btn btn-danger" v-on:click="update =null">cancelar</button></div> 
                         </form>
                     </div>
             </div>
@@ -122,8 +132,8 @@
                 descripcion:"",
 		imagen:"",
 		precio:"",
-		categorias:"",
-		horarios:"",
+		categorias:[],
+		horarios:[],
                 textoABuscar: '',
             },         
     },
@@ -134,10 +144,10 @@
             pelicula: {
                 nombre:"",
                 descripcion:"",
-		imagen:"",
-		precio:"",
-		categorias:"",
-		horarios:"",
+                imagen:"",
+                precio:"",
+                categorias:[],
+                horarios:[],
                 textoABuscar: '',
             }, 
             peliculaActualizar: [],    
@@ -167,9 +177,9 @@
             const formData = new FormData();
 
             formData.append("id", this.pelicula.id);
+            formData.append("imagen", this.pelicula.imagen);
             formData.append("nombre", this.pelicula.nombre);
             formData.append("descripcion", this.pelicula.descripcion);
-            formData.append("imagen", this.pelicula.imagen);
             formData.append("precio", this.pelicula.precio);
             formData.append("categorias", this.pelicula.categorias);
             formData.append("horarios", this.pelicula.horarios);
@@ -188,8 +198,9 @@
         async addPelicula() {
             const res = await axios.post(`http://localhost:3000/pelicula`, {
                 nombre: this.pelicula.nombre,
-                descripcion: this.pelicula.descripcion,
-            });
+                descripcion: this.pelicula.descripcion, imagen: this.pelicula.imagen ,
+            categorias: this.pelicula.categorias ,precio: this.pelicula.precio, horarios: this.pelicula.horarios
+            }); 
             this.peliculas = [...this.peliculas, res.data];
             this.nombre = "";
             this.descripcion = "";
@@ -198,7 +209,8 @@
        async guardar(id){
 
         axios.patch(`http://localhost:3000/pelicula/${id}`,
-            { "nombre": this.pelicula.nombre, "descripcion": this.pelicula.descripcion }
+            { "nombre": this.pelicula.nombre, "descripcion": this.pelicula.descripcion, "imagen": this.pelicula.imagen ,
+            "categorias": this.pelicula.categorias ,"precio": this.pelicula.precio, "horarios": this.pelicula.horarios}
            // { headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': crsfToken }, }
         ).then((response) => {
             // Code

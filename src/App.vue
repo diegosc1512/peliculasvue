@@ -8,7 +8,7 @@
 
 <script>
 import AppMenu from '@/components/AppMenu.vue';
-import ListCategoria from '@/components/categoria/ListCategoriasComponente.vue';
+//import ListCategoria from '@/components/categoria/ListCategoriasComponente.vue';
 import AppFooter from '@/components/AppFooter.vue';
 export default {
   name: 'app',
@@ -16,16 +16,21 @@ export default {
     return {
       footerColor: "slategrey",
       menuColor: "lightblue",
-      marca: "MegaDron",
+      marca: "PelisVue",
       menus:[
+     
         {
-          etiqueta: "Inicio",
-          url: "?"
+          etiqueta: "Categorias",
+          url: "http://localhost:8080/categoria"
         },
         {
-          etiqueta: "Tienda",
-          url: "?"
-      }
+          etiqueta: "Horarios",
+          url: "http://localhost:8080/horario"
+      },
+      {
+          etiqueta: "Peliculas",
+          url: "http://localhost:8080/pelicula"
+        }
       ]
 
   }

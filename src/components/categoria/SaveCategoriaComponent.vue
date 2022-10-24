@@ -1,16 +1,9 @@
 <template>
     <update v-bind:update="false" form-title="Registrar"></update>
 
-    <h5>Buscador de tareas {{textoABuscar}}</h5>
-        <form action="">
-        <div class="input-group mb-3">
-            <input type="text" v-model="textoABuscar" class="form-control" placeholder="Buscar tareas" >
-            <button class="btn btn-outline-secondary" @click.prevent="getCateorias()">Buscar</button>
-        </div>
-       </form> 
     <h1>Listado de categorias en componente</h1>
 
-    <input type="text" v-model="buscar" class="form-control" placeholder="Ejemplo: terror"/>
+    <input type="text" v-model="buscar" class="form-control" placeholder="Ingrese el nombre de la categoria que desea buscar..."/>
     
     <div class="row mt-3">
     
