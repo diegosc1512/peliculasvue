@@ -46,7 +46,7 @@
       "id": 2,
       "imagen": "https://cdn.mallmarina.cl/mallconcepcion/uploads/2022/09/La-Huerfana-el-origen-460-x-660.jpg",
       "nombre": "La huerfana el origen",
-      "descripcion": "La aterradora saga de Esther continúa en esta precuela emocionante de la exitosa y sobrecogedora película de terror La huérfana. ",
+      "descripción": "La aterradora saga de Esther continúa en esta precuela emocionante de la exitosa y sobrecogedora película de terror La huérfana. ",
       "precio": "25",
       "categorias": [
         "terror",
@@ -72,13 +72,17 @@
       ]
     },
     {
-      "nombre": "b",
-      "descripcion": "b",
-      "imagen": "b",
-      "categorias": "terror",
-      "precio": "20",
-      "horarios": "09:00",
-      "id": 5
+      "nombre": "a",
+      "descripcion": "s",
+      "imagen": "d",
+      "categorias": [
+        false
+      ],
+      "precio": "12",
+      "horarios": [
+        "12:00"
+      ],
+      "id": 4
     }
   ],
   "horario": [

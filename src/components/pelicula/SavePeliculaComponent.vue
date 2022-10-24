@@ -97,10 +97,17 @@
                             <div><label>Descripcion: </label></div>
                             <div><input v-model="pelicula.descripcion" type="text" /></div>
                             <!----><div><label>Imagen: </label></div>
-                            <div><input v-model="pelicula.imagen" type="text" /></div>
+                            <div><input v-model="pelicula.imagen" type="text" placeholder="Inserte la ruta de la imagen en la web" /></div>
 			                <div><label>Precio: </label></div>
                             <div><input v-model="pelicula.precio" type="text" /></div>
-			                <div><label>Categorias: </label></div>
+                            <div> Categorias:</div>
+                            <!--<div>Checked Categorias: {{ checkedNames }}</div>
+                            <div v-for="c in categorias" k:ey="c.id">
+                                <input type="checkbox" :id="c.id" :value=c.nombre v-model="checkedNames">
+                                <label :for="c.nombre">{{c.nombre}}</label>
+                                 <div >Nombre: {{c.nombre}} </div>
+                                <div><button @submit.prevent="agregarCategoriaListaPelicula(c.nombre)">agregar a pelicula</button></div>
+                            </div>-->
                             <div><input v-model="pelicula.categorias" type="text" /></div>
 			                <div><label>Horarios: </label></div>
                             <div><input v-model="pelicula.horarios" type="text" /></div>
@@ -122,6 +129,7 @@
  
  <script>
  import axios from "axios";
+ import ListCategoriasComponente from '@/components/categoria/ListCategoriasComponente.vue'
  export default {
     props: {
         update: Boolean,
@@ -133,6 +141,7 @@
 		imagen:"",
 		precio:"",
 		categorias:[],
+        categoriasParaUnaPelicula:[],
 		horarios:[],
                 textoABuscar: '',
             },         
@@ -150,7 +159,8 @@
                 horarios:[],
                 textoABuscar: '',
             }, 
-            peliculaActualizar: [],    
+            peliculaActualizar: [],  
+            categoriasParaUnaPelicula:[],  
             buscar: '',       
          };
      },
@@ -199,18 +209,19 @@
             const res = await axios.post(`http://localhost:3000/pelicula`, {
                 nombre: this.pelicula.nombre,
                 descripcion: this.pelicula.descripcion, imagen: this.pelicula.imagen ,
-            categorias: this.pelicula.categorias ,precio: this.pelicula.precio, horarios: this.pelicula.horarios
+            categorias: [this.pelicula.categorias] ,precio: this.pelicula.precio, horarios: [this.pelicula.horarios]
             }); 
             this.peliculas = [...this.peliculas, res.data];
             this.nombre = "";
             this.descripcion = "";
+            console.log(this.checkedNames.value);
         },
 
        async guardar(id){
 
         axios.patch(`http://localhost:3000/pelicula/${id}`,
             { "nombre": this.pelicula.nombre, "descripcion": this.pelicula.descripcion, "imagen": this.pelicula.imagen ,
-            "categorias": this.pelicula.categorias ,"precio": this.pelicula.precio, "horarios": this.pelicula.horarios}
+            "categorias": [this.pelicula.categorias] ,"precio": this.pelicula.precio, "horarios": [this.pelicula.horarios]}
            // { headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': crsfToken }, }
         ).then((response) => {
             // Code
@@ -285,6 +296,10 @@
            ;
             //console.log(pelicula.nombre + pelicula.descripcion);
         },
+        agregarCategoriaListaPelicula(categoria){
+            categoriasParaUnaPelicula=categoriasParaUnaPelicula.insert(categoria);
+            console.log(categoriasParaUnaPelicula);
+        }
      },
      computed: {
 
@@ -298,8 +313,13 @@
         fetch("http://localhost:3000/pelicula")
         .then((res) =>res.json())
         .then((res)=>this.peliculas=res);
+        fetch("http://localhost:3000/categoria")
+        .then((rescat) =>rescat.json())
+        .then((rescat)=>this.categorias=rescat);
     },
+    
      components: {
+        ListCategoriasComponente
      }
      
  }
