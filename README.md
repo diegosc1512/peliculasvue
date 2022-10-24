@@ -1,5 +1,10 @@
 # modulo6ProyectoFinal
-
+## Integrantes:
+```
+Karina Maria Celia Carrasco Torrejon
+Miguel Israel Nava Salinas
+Diego Salazar Carrasco
+```
 ## Project setup
 ```
 npm install
